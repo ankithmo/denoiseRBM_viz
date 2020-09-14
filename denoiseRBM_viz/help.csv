@@ -1,0 +1,7 @@
+step;text
+1;Select dataset.
+2;Specify split.
+3;Choose type of distortion in X.
+4;Select type of distortion in A.
+5;Use the slider to specify n_A.
+6;Choose from reconstructions for playground.
