@@ -42,12 +42,15 @@ server <- function(input, output, session){
     reqd_df <- df[[suffix]]
     final_df <- if (s_A() == "A_c") subset(reqd_df, A_c == input$n_A) else subset(reqd_df, A_z == input$n_A)
     
-    first <- if (input$n_A == 0) "Full" else glue("{input$n_A}%")
-    second <- if (s_A() == "A_c") "corrupted" else "blanked out"
-    if((s_A() == "A_z") && input$n_A > 40){
-      title <- "node2vec embeddings are not generated because some nodes are isolated."
-    } else {
-      title <- glue("{first} {second} adjacency matrix") 
+    if (input$n_A == 0){
+      title <- glue("Full adjacency matrix")
+    } else{
+      second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+      if((s_A() == "A_z") && input$n_A > 40){
+        title <- "node2vec embeddings are not generated because some nodes are isolated."
+      } else {
+        title <- glue("{input$n_A}% {second} adjacency matrix") 
+      }  
     }
     
     fig <- plot_ly(final_df, x = x)
@@ -72,8 +75,12 @@ server <- function(input, output, session){
     reqd_df <- df[[suffix]]
     final_df <- if (s_A() == "A_c") subset(reqd_df, A_c == input$n_A) else subset(reqd_df, A_z == input$n_A)
     
-    first <- if (input$n_A == 0) "Full" else glue("{input$n_A}%")
-    second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+    if (input$n_A == 0){
+      title <- glue("Full adjacency matrix")
+    } else{
+      second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+      title <- glue("{input$n_A}% {second} adjacency matrix")
+    }
     
     fig <- plot_ly(final_df, x = x)
     fig <- fig %>% add_trace(y = ~GCN_x, name = "GCN:z0", mode = "lines+markers")
@@ -81,7 +88,7 @@ server <- function(input, output, session){
     fig <- fig %>% add_trace(y = ~GCN_z1, name = "GCN:~z1", mode = "lines+markers")
     fig <- fig %>% add_trace(y = ~GCN_z2, name = "GCN:~z2", mode = "lines+markers")
     fig <- fig %>% add_trace(y = ~GCN_z3, name = "GCN:~z3", mode = "lines+markers")
-    fig <- fig %>% layout(title = glue("{first} {second} adjacency matrix"),
+    fig <- fig %>% layout(title = title,
                           xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
                           yaxis = list (title = "Prediction accuracy"))
     fig
@@ -97,8 +104,12 @@ server <- function(input, output, session){
     reqd_df <- df[[suffix]]
     final_df <- if (s_A() == "A_c") subset(reqd_df, A_c == input$n_A) else subset(reqd_df, A_z == input$n_A)
     
-    first <- if (input$n_A == 0) "Full" else glue("{input$n_A}%")
-    second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+    if (input$n_A == 0){
+      title <- glue("Full adjacency matrix")
+    } else{
+      second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+      title <- glue("{input$n_A}% {second} adjacency matrix")
+    }
     
     fig <- plot_ly(final_df, x = x)
     fig <- fig %>% add_trace(y = ~SAGE_x, name = "SAGE:z0", mode = "lines+markers")
@@ -106,7 +117,7 @@ server <- function(input, output, session){
     fig <- fig %>% add_trace(y = ~SAGE_z1, name = "SAGE:~z1", mode = "lines+markers")
     fig <- fig %>% add_trace(y = ~SAGE_z2, name = "SAGE:~z2", mode = "lines+markers")
     fig <- fig %>% add_trace(y = ~SAGE_z3, name = "SAGE:~z3", mode = "lines+markers")
-    fig <- fig %>% layout(title = glue("{first} {second} adjacency matrix"),
+    fig <- fig %>% layout(title = title,
                           xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
                           yaxis = list (title = "Prediction accuracy"))
     fig
@@ -142,8 +153,12 @@ server <- function(input, output, session){
     SAGE_reqd_df <- SAGE_df[[rest_suffix]]
     SAGE_df <- if (s_A() == "A_c") subset(SAGE_reqd_df, A_c == input$n_A) else subset(SAGE_reqd_df, A_z == input$n_A)
     
-    first <- if (input$n_A == 0) "Full" else glue("{input$n_A}%")
-    second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+    if (input$n_A == 0){
+      title <- glue("Full adjacency matrix")
+    } else{
+      second <- if (s_A() == "A_c") "corrupted" else "blanked out"
+      title <- glue("{input$n_A}% {second} adjacency matrix")
+    }
     
     fig <- plot_ly()
     
@@ -191,7 +206,7 @@ server <- function(input, output, session){
       fig <- fig %>% add_trace(data = SAGE_df, x = x, y = ~SAGE_z3, name = "SAGE:~z3", mode = "lines+markers")
     }
     
-    fig <- fig %>% layout(title = glue("{first} {second} adjacency matrix"),
+    fig <- fig %>% layout(title = title,
                           xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
                           yaxis = list (title = "Prediction accuracy"))
     fig
