@@ -11,8 +11,7 @@ library(glue)
 # Pre-computations
 ###############################################################################
 get_dataset_path <- function(dataset){
-  file.path("C:", "Users", "Ankith", "Desktop", "thesis", "denoiseRBM_viz", 
-            "results", dataset)
+  file.path("..", "results", dataset)
 }
 
 get_MLP_files <- function(path){
