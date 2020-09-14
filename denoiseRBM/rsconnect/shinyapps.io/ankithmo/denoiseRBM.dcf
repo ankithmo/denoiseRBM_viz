@@ -1,0 +1,13 @@
+name: denoiseRBM
+title: denoiseRBM
+username:
+account: ankithmo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2803065
+bundleId: 3625986
+url: https://ankithmo.shinyapps.io/denoiseRBM/
+when: 1600059262.57848
+lastSyncTime: 1600059262.57848
+asMultiple: FALSE
+asStatic: FALSE

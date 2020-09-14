@@ -11,7 +11,7 @@ library(glue)
 # Pre-computations
 ###############################################################################
 get_dataset_path <- function(dataset){
-  file.path("..", "results", dataset)
+  file.path("results", dataset)
 }
 
 get_MLP_files <- function(path){
