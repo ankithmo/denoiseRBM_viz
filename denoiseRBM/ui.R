@@ -56,7 +56,7 @@ sidebar <- dashboardSidebar(
       startExpanded = TRUE,
       selectInput("dataset",
                   "Dataset",
-                  choices = c("ogbn-arxiv", "WikiCS"),#, "WikiCS-AWGN"
+                  choices = c("ogbn-arxiv", "WikiCS", "WikiCS-AWGN"),
                   selected = "ogbn-arxiv"),
       selectInput("split",
                   "Split",

@@ -42,6 +42,8 @@ server <- function(input, output, session){
     reqd_df <- df[[suffix]]
     final_df <- if (s_A() == "A_c") subset(reqd_df, A_c == input$n_A) else subset(reqd_df, A_z == input$n_A)
     
+    
+    
     first <- if (input$n_A == 0) "Full" else glue("{input$n_A}%")
     second <- if (s_A() == "A_c") "corrupted" else "blanked out"
     if((s_A() == "A_z") && input$n_A > 40){
