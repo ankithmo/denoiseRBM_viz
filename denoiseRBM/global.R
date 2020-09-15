@@ -20,21 +20,21 @@ get_MLP_files <- function(path){
   #############################################################################
   # val
   X_c_A_c_val_file <- file.path(path, "X_c", "A_c", "val", "X_c_A_c_0_val.csv")
-  X_c_A_c_val <- if (file.exists(X_c_A_c_val_file)) read.csv(X_c_A_c_val_file, sep = "\t") else NULL
+  X_c_A_c_val <- if (file.exists(X_c_A_c_val_file)) read.csv(X_c_A_c_val_file) else NULL
 
   # test
   X_c_A_c_test_file <- file.path(path, "X_c", "A_c", "test", "X_c_A_c_0_test.csv")
-  X_c_A_c_test <- if (file.exists(X_c_A_c_test_file)) read.csv(X_c_A_c_test_file, sep = "\t") else NULL
+  X_c_A_c_test <- if (file.exists(X_c_A_c_test_file)) read.csv(X_c_A_c_test_file) else NULL
   #############################################################################
   # X_z, A_c
   #############################################################################
   # val
   X_z_A_c_val_file <- file.path(path, "X_z", "A_c", "val", "X_z_A_c_0_val.csv")
-  X_z_A_c_val <- if (file.exists(X_z_A_c_val_file)) read.csv(X_z_A_c_val_file, sep = "\t") else NULL
+  X_z_A_c_val <- if (file.exists(X_z_A_c_val_file)) read.csv(X_z_A_c_val_file) else NULL
   
   # test
   X_z_A_c_test_file <- file.path(path, "X_z", "A_c", "test", "X_z_A_c_0_test.csv")
-  X_z_A_c_test <- if (file.exists(X_z_A_c_test_file)) read.csv(X_z_A_c_test_file, sep = "\t") else NULL
+  X_z_A_c_test <- if (file.exists(X_z_A_c_test_file)) read.csv(X_z_A_c_test_file) else NULL
   #############################################################################
   return_list <- list("X_c_A_c_val" = X_c_A_c_val, 
                       "X_c_A_c_test" = X_c_A_c_test, 
@@ -54,9 +54,9 @@ get_DNN_files <- function(path){
     X_c_A_c_val_file <- file.path(path, "X_c", "A_c", "val", glue("X_c_A_c_{p}_val.csv"))
     if (file.exists(X_c_A_c_val_file)){
       if (X_c_A_c_val_exist == F){
-        X_c_A_c_val <- read.csv(X_c_A_c_val_file, sep = "\t")
+        X_c_A_c_val <- read.csv(X_c_A_c_val_file)
       } else {
-        X_c_A_c_val <- rbind(X_c_A_c_val, read.csv(X_c_A_c_file, sep = "\t"))  
+        X_c_A_c_val <- rbind(X_c_A_c_val, read.csv(X_c_A_c_val_file))  
       }
     }
     
@@ -65,9 +65,9 @@ get_DNN_files <- function(path){
     X_c_A_c_test_file <- file.path(path, "X_c", "A_c", "test", glue("X_c_A_c_{p}_test.csv"))
     if (file.exists(X_c_A_c_test_file)){
       if (X_c_A_c_test_exist == F){
-        X_c_A_c_test <- read.csv(X_c_A_c_test_file, sep = "\t")
+        X_c_A_c_test <- read.csv(X_c_A_c_test_file)
       } else {
-        X_c_A_c_test <- rbind(X_c_A_c_test, read.csv(X_c_A_c_test_file, sep = "\t"))  
+        X_c_A_c_test <- rbind(X_c_A_c_test, read.csv(X_c_A_c_test_file))  
       }
     }
     ###########################################################################
@@ -83,9 +83,9 @@ get_DNN_files <- function(path){
     if (file.exists(X_c_A_z_val_file)){
       if (X_c_A_z_val_flag == F){
         if (X_c_A_z_val_exist == F){
-          X_c_A_z_val <- read.csv(X_c_A_z_val_file, sep = "\t")
+          X_c_A_z_val <- read.csv(X_c_A_z_val_file)
         } else {
-          X_c_A_z_val <- rbind(X_c_A_z_val, read.csv(X_c_A_z_val_file, sep = "\t"))
+          X_c_A_z_val <- rbind(X_c_A_z_val, read.csv(X_c_A_z_val_file))
         }
       }
     }
@@ -100,9 +100,9 @@ get_DNN_files <- function(path){
     if (file.exists(X_c_A_z_test_file)){
       if (X_c_A_z_test_flag == F){
         if (X_c_A_z_test_exist == F){
-          X_c_A_z_test <- read.csv(X_c_A_z_test_file, sep = "\t")
+          X_c_A_z_test <- read.csv(X_c_A_z_test_file)
         } else {
-          X_c_A_z_test <- rbind(X_c_A_z_test, read.csv(X_c_A_z_test_file, sep = "\t"))  
+          X_c_A_z_test <- rbind(X_c_A_z_test, read.csv(X_c_A_z_test_file))  
         }
       }
     }
@@ -114,9 +114,9 @@ get_DNN_files <- function(path){
     X_z_A_c_val_file <- file.path(path, "X_z", "A_c", "val", glue("X_z_A_c_{p}_val.csv"))
     if (file.exists(X_z_A_c_val_file)){
       if (X_z_A_c_val_exist == F){
-        X_z_A_c_val <- read.csv(X_z_A_c_val_file, sep = "\t")
+        X_z_A_c_val <- read.csv(X_z_A_c_val_file)
       } else {
-        X_z_A_c_val <- rbind(X_z_A_c_val, read.csv(X_z_A_c_file, sep = "\t"))  
+        X_z_A_c_val <- rbind(X_z_A_c_val, read.csv(X_z_A_c_val_file))  
       }
     }
     
@@ -125,9 +125,9 @@ get_DNN_files <- function(path){
     X_z_A_c_test_file <- file.path(path, "X_z", "A_c", "test", glue("X_z_A_c_{p}_test.csv"))
     if (file.exists(X_z_A_c_test_file)){
       if (X_z_A_c_test_exist == F){
-        X_z_A_c_test <- read.csv(X_z_A_c_test_file, sep = "\t")
+        X_z_A_c_test <- read.csv(X_z_A_c_test_file)
       } else {
-        X_z_A_c_test <- rbind(X_z_A_c_test, read.csv(X_z_A_c_test_file, sep = "\t"))  
+        X_z_A_c_test <- rbind(X_z_A_c_test, read.csv(X_z_A_c_test_file))  
       }
     }
     ###########################################################################
@@ -143,9 +143,9 @@ get_DNN_files <- function(path){
     if (file.exists(X_z_A_z_val_file)){
       if (X_z_A_z_val_flag == F){
         if (X_z_A_z_val_exist == F){
-          X_z_A_z_val <- read.csv(X_z_A_z_val_file, sep = "\t")
+          X_z_A_z_val <- read.csv(X_z_A_z_val_file)
         } else {
-          X_z_A_z_val <- rbind(X_z_A_z_val, read.csv(X_z_A_z_val_file, sep = "\t"))
+          X_z_A_z_val <- rbind(X_z_A_z_val, read.csv(X_z_A_z_val_file))
         }
       }
     }
@@ -160,14 +160,24 @@ get_DNN_files <- function(path){
     if (file.exists(X_z_A_z_test_file)){
       if (X_z_A_z_test_flag == F){
         if (X_z_A_z_test_exist == F){
-          X_z_A_z_test <- read.csv(X_z_A_z_test_file, sep = "\t")
+          X_z_A_z_test <- read.csv(X_z_A_z_test_file)
         } else {
-          X_z_A_z_test <- rbind(X_z_A_z_test, read.csv(X_c_A_z_test_file, sep = "\t"))  
+          X_z_A_z_test <- rbind(X_z_A_z_test, read.csv(X_z_A_z_test_file))  
         }
       }
     }
-    ###########################################################################
-    return_list <- list("X_c_A_c_val" = X_c_A_c_val, 
+  }
+  ###########################################################################
+  X_c_A_c_val <- if (X_c_A_c_val_exist == T) X_c_A_c_val else NULL
+  X_c_A_c_test <- if (X_c_A_c_test_exist == T) X_c_A_c_test else NULL
+  X_c_A_z_val <- if (X_c_A_z_val_exist == T) X_c_A_z_val else NULL
+  X_c_A_z_test <- if (X_c_A_z_test_exist == T) X_c_A_z_test else NULL
+  X_z_A_c_val <- if (X_z_A_c_val_exist == T) X_z_A_c_val else NULL
+  X_z_A_c_test <- if (X_z_A_c_test_exist == T) X_z_A_c_test else NULL
+  X_z_A_z_val <- if (X_z_A_z_val_exist == T) X_z_A_z_val else NULL
+  X_z_A_z_test <- if (X_z_A_z_test_exist == T) X_z_A_z_test else NULL
+  ###########################################################################
+  return_list <- list("X_c_A_c_val" = X_c_A_c_val, 
                       "X_c_A_c_test" = X_c_A_c_test, 
                       "X_c_A_z_val" = X_c_A_z_val, 
                       "X_c_A_z_test" = X_c_A_z_test,
@@ -181,20 +191,20 @@ get_DNN_files <- function(path){
 ###############################################################################
 # Datasets for WikiCS
 ###############################################################################
-# w_dataset <- "WikiCS"
-# w_dataset_path <- get_dataset_path(w_dataset)
-# 
-# w_MLP_path <- file.path(w_dataset_path, "MLP")
-# w_MLP_files <- get_MLP_files(w_MLP_path)
-# 
-# w_n2v_path <- file.path(w_dataset_path, "n2v")
-# w_n2v_files <- get_DNN_files(w_n2v_path)
-# 
-# w_GCN_path <- file.path(w_dataset_path, "GCN")
-# w_GCN_files <- get_DNN_files(w_GCN_path)
-# 
-# w_SAGE_path <- file.path(w_dataset_path, "SAGE")
-# w_SAGE_files <- get_DNN_files(w_SAGE_path)
+w_dataset <- "WikiCS"
+w_dataset_path <- get_dataset_path(w_dataset)
+
+w_MLP_path <- file.path(w_dataset_path, "MLP")
+w_MLP_files <- get_MLP_files(w_MLP_path)
+
+w_n2v_path <- file.path(w_dataset_path, "n2v")
+w_n2v_files <- get_DNN_files(w_n2v_path)
+
+w_GCN_path <- file.path(w_dataset_path, "GCN")
+w_GCN_files <- get_DNN_files(w_GCN_path)
+
+w_SAGE_path <- file.path(w_dataset_path, "SAGE")
+w_SAGE_files <- get_DNN_files(w_SAGE_path)
 ###############################################################################
 # Datasets for WikiCS_AWGN
 ###############################################################################
