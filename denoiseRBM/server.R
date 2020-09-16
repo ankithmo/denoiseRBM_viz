@@ -393,15 +393,188 @@ server <- function(input, output, session){
   # MI
   #############################################################################
   output$z0_vs_rec_z0 <- renderPlotly({
-    fig <- plot_ly()
+    # Get list
+    if (input$method == "MLP") {
+      df <- wa_MLP_MI_files
+      col_x_T1 <- ~MLP_x_T1
+      col_x_T2 <- ~MLP_x_T2
+      col_z0_T1 <- ~MLP_z0_T1
+      col_z0_T2 <- ~MLP_z0_T2
+    } else if (input$method == "n2v") {
+      df <- wa_n2v_MI_files
+      col_x_T1 <- ~n2v_x_T1
+      col_x_T2 <- ~n2v_x_T2
+      col_z0_T1 <- ~n2v_z0_T1
+      col_z0_T2 <- ~n2v_z0_T2
+    } else if (input$method == "GCN") {
+      df <- wa_GCN_MI_files
+      col_x_T1 <- ~GCN_x_T1
+      col_x_T2 <- ~GCN_x_T2
+      col_z0_T1 <- ~GCN_z0_T1
+      col_z0_T2 <- ~GCN_z0_T2
+    } else if (input$method == "SAGE") {
+      df <- wa_SAGE_MI_files
+      col_x_T1 <- ~SAGE_x_T1
+      col_x_T2 <- ~SAGE_x_T2
+      col_z0_T1 <- ~SAGE_z0_T1
+      col_z0_T2 <- ~SAGE_z0_T2
+    }
+    
+    # Get sub-list
+    suffix <- glue("{s_X()}_A_c_{s_split()}")
+    x <- if (s_X() == "X_c") ~X_c else ~X_z
+    
+    # Plot sub-list
+    if(!is.null(df[[suffix]])){
+      fig <- plot_ly(data = df[[suffix]], x = x)
+      if(glue("{input$method}_x_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T1")]])){
+        fig <- fig %>% add_trace(y = col_x_T1, name = glue("I({input$method}:z0;T1)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_x_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T2")]])){
+        fig <- fig %>% add_trace(y = col_x_T2, name = glue("I({input$method}:z0;T2)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z0_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z0_T1")]])){
+        fig <- fig %>% add_trace(y = col_z0_T1, name = glue("I({input$method}:~z0;T1)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z0_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z0_T2")]])){
+        fig <- fig %>% add_trace(y = col_z0_T2, name = glue("I({input$method}:~z0;T2)"), 
+                                 mode = "lines+markers")
+      }
+    } else {
+      fig <- plot_ly()
+    }
+    
+    # Layout the plot
+    fig <- fig %>% layout(title = glue("Full adjacency matrix"),
+                          xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
+                          yaxis = list (title = "Mutual information estimates"))
     fig
   })
+  
   output$z0_vs_rec_z1 <- renderPlotly({
-    fig <- plot_ly()
+    # Get list
+    if (input$method == "MLP") {
+      df <- wa_MLP_MI_files
+      col_x_T1 <- ~MLP_x_T1
+      col_x_T2 <- ~MLP_x_T2
+      col_z1_T1 <- ~MLP_z1_T1
+      col_z1_T2 <- ~MLP_z1_T2
+    } else if (input$method == "n2v") {
+      df <- wa_n2v_MI_files
+      col_x_T1 <- ~n2v_x_T1
+      col_x_T2 <- ~n2v_x_T2
+      col_z1_T1 <- ~n2v_z1_T1
+      col_z1_T2 <- ~n2v_z1_T2
+    } else if (input$method == "GCN") {
+      df <- wa_GCN_MI_files
+      col_x_T1 <- ~GCN_x_T1
+      col_x_T2 <- ~GCN_x_T2
+      col_z1_T1 <- ~GCN_z1_T1
+      col_z1_T2 <- ~GCN_z1_T2
+    } else if (input$method == "SAGE") {
+      df <- wa_SAGE_MI_files
+      col_x_T1 <- ~SAGE_x_T1
+      col_x_T2 <- ~SAGE_x_T2
+      col_z1_T1 <- ~SAGE_z1_T1
+      col_z1_T2 <- ~SAGE_z1_T2
+    }
+    
+    # Get sub-list
+    suffix <- glue("{s_X()}_A_c_{s_split()}")
+    x <- if (s_X() == "X_c") ~X_c else ~X_z
+    
+    # Plot sub-list
+    if(!is.null(df[[suffix]])){
+      fig <- plot_ly(data = df[[suffix]], x = x)
+      if(glue("{input$method}_x_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T1")]])){
+        fig <- fig %>% add_trace(y = col_x_T1, name = glue("I({input$method}:z0;T1)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_x_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T2")]])){
+        fig <- fig %>% add_trace(y = col_x_T2, name = glue("I({input$method}:z0;T2)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z1_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z1_T1")]])){
+        fig <- fig %>% add_trace(y = col_z1_T1, name = glue("I({input$method}:~z1;T1)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z1_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z1_T2")]])){
+        fig <- fig %>% add_trace(y = col_z1_T2, name = glue("I({input$method}:~z1;T2)"), 
+                                 mode = "lines+markers")
+      }
+    } else {
+      fig <- plot_ly()
+    }
+    
+    # Layout the plot
+    fig <- fig %>% layout(title = glue("Full adjacency matrix"),
+                          xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
+                          yaxis = list (title = "Mutual information estimates"))
     fig
   })
+  
   output$z0_vs_rec_z2 <- renderPlotly({
-    fig <- plot_ly()
+    # Get list
+    if (input$method == "MLP") {
+      df <- wa_MLP_MI_files
+      col_x_T1 <- ~MLP_x_T1
+      col_x_T2 <- ~MLP_x_T2
+      col_z2_T1 <- ~MLP_z2_T1
+      col_z2_T2 <- ~MLP_z2_T2
+    } else if (input$method == "n2v") {
+      df <- wa_n2v_MI_files
+      col_x_T1 <- ~n2v_x_T1
+      col_x_T2 <- ~n2v_x_T2
+      col_z2_T1 <- ~n2v_z2_T1
+      col_z2_T2 <- ~n2v_z2_T2
+    } else if (input$method == "GCN") {
+      df <- wa_GCN_MI_files
+      col_x_T1 <- ~GCN_x_T1
+      col_x_T2 <- ~GCN_x_T2
+      col_z2_T1 <- ~GCN_z2_T1
+      col_z2_T2 <- ~GCN_z2_T2
+    } else if (input$method == "SAGE") {
+      df <- wa_SAGE_MI_files
+      col_x_T1 <- ~SAGE_x_T1
+      col_x_T2 <- ~SAGE_x_T2
+      col_z2_T1 <- ~SAGE_z2_T1
+      col_z2_T2 <- ~SAGE_z2_T2
+    }
+    
+    # Get sub-list
+    suffix <- glue("{s_X()}_A_c_{s_split()}")
+    x <- if (s_X() == "X_c") ~X_c else ~X_z
+    
+    # Plot sub-list
+    if(!is.null(df[[suffix]])){
+      fig <- plot_ly(data = df[[suffix]], x = x)
+      if(glue("{input$method}_x_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T1")]])){
+        fig <- fig %>% add_trace(y = col_x_T1, name = glue("I({input$method}:z0;T1)"), 
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_x_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_x_T2")]])){
+        fig <- fig %>% add_trace(y = col_x_T2, name = glue("I({input$method}:z0;T2)"),
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z2_T1") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z2_T1")]])){
+        fig <- fig %>% add_trace(y = col_z2_T1, name = glue("I({input$method}:~z2;T1)"),
+                                 mode = "lines+markers")
+      }
+      if(glue("{input$method}_z2_T2") %in% colnames(df[[suffix]]) && !is.null(df[[suffix]][[glue("{input$method}_z2_T2")]])){
+        fig <- fig %>% add_trace(y = col_z2_T2, name = glue("I({input$method}:~z2;T2)"),
+                                 mode = "lines+markers")
+      }
+    } else {
+      fig <- plot_ly()
+    }
+    
+    # Layout the plot
+    fig <- fig %>% layout(title = glue("Full adjacency matrix"),
+                          xaxis = list(title = glue("Distortion in {tolower(input$split)} node feature matrix ({s_X()})")),
+                          yaxis = list (title = "Mutual information estimates"))
     fig
   })
   #############################################################################
