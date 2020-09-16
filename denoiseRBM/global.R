@@ -135,7 +135,7 @@ get_DNN_files <- function(path){
     ###########################################################################
     # val
     X_z_A_z_val_exist <- exists("X_z_A_z_val")
-    X_z_A_z_val_file <- file.path(path, "X_z", "A_z", "val", glue("X_Z_A_z_{p}_val.csv"))
+    X_z_A_z_val_file <- file.path(path, "X_z", "A_z", "val", glue("X_z_A_z_{p}_val.csv"))
     X_z_A_z_val_flag <- F
     if(grepl("n2v", path, fixed=T) == T && p > 40){
       X_z_A_z_val_flag <- T 
@@ -208,20 +208,20 @@ w_SAGE_files <- get_DNN_files(w_SAGE_path)
 ###############################################################################
 # Datasets for WikiCS_AWGN
 ###############################################################################
-# wa_dataset <- "WikiCS-AWGN"
-# wa_dataset_path <- get_dataset_path(wa_dataset)
-# 
-# wa_MLP_path <- file.path(wa_dataset_path, "MLP")
-# wa_MLP_files <- get_MLP_files(wa_MLP_path)
-# 
-# wa_n2v_path <- file.path(wa_dataset_path, "n2v")
-# wa_n2v_files <- get_DNN_files(wa_n2v_path)
-# 
-# wa_GCN_path <- file.path(wa_dataset_path, "GCN")
-# wa_GCN_files <- get_DNN_files(wa_GCN_path)
-# 
-# wa_SAGE_path <- file.path(wa_dataset_path, "SAGE")
-# wa_SAGE_files <- get_DNN_files(wa_SAGE_path)
+wa_dataset <- "WikiCS-AWGN"
+wa_dataset_path <- get_dataset_path(wa_dataset)
+
+wa_MLP_path <- file.path(wa_dataset_path, "MLP")
+wa_MLP_files <- get_MLP_files(wa_MLP_path)
+
+wa_n2v_path <- file.path(wa_dataset_path, "n2v")
+wa_n2v_files <- get_DNN_files(wa_n2v_path)
+
+wa_GCN_path <- file.path(wa_dataset_path, "GCN")
+wa_GCN_files <- get_DNN_files(wa_GCN_path)
+
+wa_SAGE_path <- file.path(wa_dataset_path, "SAGE")
+wa_SAGE_files <- get_DNN_files(wa_SAGE_path)
 ###############################################################################
 # Datasets for ogbn-arxiv
 ###############################################################################
