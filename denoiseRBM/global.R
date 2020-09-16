@@ -14,119 +14,217 @@ get_dataset_path <- function(dataset){
   file.path("results", dataset)
 }
 
-get_MLP_files <- function(path){
+get_MLP_files <- function(path, MI=F){
+  #############################################################################
   # X_c, A_c
-  X_c_A_c_0_val <- read.csv(file.path(path, "X_c", "A_c", "val", 
-                                      "X_c_A_c_0_val.csv"), sep = "\t")
-  X_c_A_c_0_test <- read.csv(file.path(path, "X_c", "A_c", "test",
-                                      "X_c_A_c_0_test.csv"), sep = "\t")
+  #############################################################################
+  # val
+  X_c_A_c_val_file <- if (MI == T) {
+  file.path(path, "X_c", "A_c", "val", glue("X_c_A_c_0_MI_val.csv"))
+} else {
+  file.path(path, "X_c", "A_c", "val", glue("X_c_A_c_0_val.csv"))
+}
+  X_c_A_c_val <- if (file.exists(X_c_A_c_val_file)) read.csv(X_c_A_c_val_file) else NULL
+
+  # test
+  X_c_A_c_test_file <- if (MI == T) {
+    file.path(path, "X_c", "A_c", "test", glue("X_c_A_c_0_MI_test.csv"))
+  } else {
+    file.path(path, "X_c", "A_c", "test", glue("X_c_A_c_0_test.csv"))
+  }
+  X_c_A_c_test <- if (file.exists(X_c_A_c_test_file)) read.csv(X_c_A_c_test_file) else NULL
+  #############################################################################
   # X_z, A_c
-  X_z_A_c_0_val <- read.csv(file.path(path, "X_z", "A_c", "val",
-                                      "X_z_A_c_0_val.csv"), sep = "\t")
-  X_z_A_c_0_test <- read.csv(file.path(path, "X_z", "A_c", "test",
-                                        "X_z_A_c_0_test.csv"), sep = "\t")  
-  return_list <- list("X_c_A_c_val" = X_c_A_c_0_val, 
-                      "X_c_A_c_test" = X_c_A_c_0_test, 
-                      "X_z_A_c_val" = X_z_A_c_0_val, 
-                      "X_z_A_c_test" = X_z_A_c_0_test)
+  #############################################################################
+  # val
+  X_z_A_c_val_file <- if (MI == T) {
+    file.path(path, "X_z", "A_c", "val", glue("X_z_A_c_0_MI_val.csv"))
+  } else {
+    file.path(path, "X_z", "A_c", "val", glue("X_z_A_c_0_val.csv"))
+  }
+  X_z_A_c_val <- if (file.exists(X_z_A_c_val_file)) read.csv(X_z_A_c_val_file) else NULL
+  
+  # test
+  X_z_A_c_test_file <- if (MI == T) {
+    file.path(path, "X_z", "A_c", "test", glue("X_z_A_c_0_MI_test.csv"))
+  } else {
+    file.path(path, "X_z", "A_c", "test", glue("X_z_A_c_0_test.csv"))
+  }
+  X_z_A_c_test <- if (file.exists(X_z_A_c_test_file)) read.csv(X_z_A_c_test_file) else NULL
+  #############################################################################
+  return_list <- list("X_c_A_c_val" = X_c_A_c_val, 
+                      "X_c_A_c_test" = X_c_A_c_test, 
+                      "X_z_A_c_val" = X_z_A_c_val, 
+                      "X_z_A_c_test" = X_z_A_c_test)
   return(return_list)
 }
 
-get_DNN_files <- function(path){
+get_DNN_files <- function(path, MI=F){
   
   for(p in seq(0,100,10)){
+    ###########################################################################
     # X_c, A_c
-    if (p == 0){
-      X_c_A_c_val <- read.csv(file.path(path, "X_c", "A_c", "val", 
-                                        glue("X_c_A_c_0_val.csv")), sep = "\t")
+    ###########################################################################
+    # val
+    X_c_A_c_val_exist <- exists("X_c_A_c_val")
+    X_c_A_c_val_file <- if (MI == T) {
+      file.path(path, "X_c", "A_c", "val", glue("X_c_A_c_{p}_MI_val.csv"))
     } else {
-      X_c_A_c_val <- rbind(X_c_A_c_val, read.csv(file.path(path, "X_c", "A_c", "val", 
-                                                           glue("X_c_A_c_{p}_val.csv")), sep = "\t"))
+      file.path(path, "X_c", "A_c", "val", glue("X_c_A_c_{p}_val.csv"))
     }
-    if (p == 0){
-      X_c_A_c_test <- read.csv(file.path(path, "X_c", "A_c", "test", 
-                                         glue("X_c_A_c_0_test.csv")), sep = "\t")
-    } else {
-      X_c_A_c_test <- rbind(X_c_A_c_test, read.csv(file.path(path, "X_c", "A_c", "test", 
-                                                  glue("X_c_A_c_{p}_test.csv")), sep = "\t"))
+    if (file.exists(X_c_A_c_val_file)){
+      X_c_A_c_val <- if (X_c_A_c_val_exist == F){
+        read.csv(X_c_A_c_val_file)
+      } else {
+        rbind(X_c_A_c_val, read.csv(X_c_A_c_val_file))  
+      }
     }
     
+    # test
+    X_c_A_c_test_exist <- exists("X_c_A_c_test")
+    X_c_A_c_test_file <- if (MI == T){
+      file.path(path, "X_c", "A_c", "test", glue("X_c_A_c_{p}_MI_test.csv"))
+    } else {
+      file.path(path, "X_c", "A_c", "test", glue("X_c_A_c_{p}_test.csv"))
+    }
+    if (file.exists(X_c_A_c_test_file)){
+      X_c_A_c_test <- if (X_c_A_c_test_exist == F){
+        read.csv(X_c_A_c_test_file)
+      } else {
+        rbind(X_c_A_c_test, read.csv(X_c_A_c_test_file))  
+      }
+    }
+    ###########################################################################
     # X_c, A_z
-    if (p == 0){
-      X_c_A_z_val <- read.csv(file.path(path, "X_c", "A_z", "val", 
-                                        glue("X_c_A_z_0_val.csv")), sep = "\t")
+    ###########################################################################
+    # val
+    X_c_A_z_val_exist <- exists("X_c_A_z_val")
+    X_c_A_z_val_file <- if (MI == T) {
+      file.path(path, "X_c", "A_z", "val", glue("X_c_A_z_{p}_MI_val.csv"))
     } else {
-      if (p <= 40){
-        X_c_A_z_val <- rbind(X_c_A_z_val, read.csv(file.path(path, "X_c", "A_z", "val", 
-                                                             glue("X_c_A_z_{p}_val.csv")), sep = "\t"))
-      } else {
-        if (grepl("n2v", path, fixed=T) == F){
-          X_c_A_z_val <- rbind(X_c_A_z_val, read.csv(file.path(path, "X_c", "A_z", "val", 
-                                                      glue("X_c_A_z_{p}_val.csv")), sep = "\t"))
-        }
-      }
+      file.path(path, "X_c", "A_z", "val", glue("X_c_A_z_{p}_val.csv"))
     }
-    if (p == 0){
-      X_c_A_z_test <- read.csv(file.path(path, "X_c", "A_z", "test", 
-                                          glue("X_c_A_z_0_test.csv")), sep = "\t")
-    } else {
-      if (p <= 40){
-        X_c_A_z_test <- rbind(X_c_A_z_test, read.csv(file.path(path, "X_c", "A_z", "test", 
-                                                               glue("X_c_A_z_{p}_test.csv")), sep = "\t"))
-      } else {
-        if ((grepl("n2v", path, fixed=T)) == F){
-          X_c_A_z_test <- rbind(X_c_A_z_test, read.csv(file.path(path, "X_c", "A_z", "test", 
-                                                      glue("X_c_A_z_{p}_test.csv")), sep = "\t"))
+    X_c_A_z_val_flag <- F
+    if(grepl("n2v", path, fixed=T) == T && p > 40){
+      X_c_A_z_val_flag <- T 
+    }
+    if (file.exists(X_c_A_z_val_file)){
+      if (X_c_A_z_val_flag == F){
+        X_c_A_z_val <- if (X_c_A_z_val_exist == F){
+          read.csv(X_c_A_z_val_file)
+        } else {
+          rbind(X_c_A_z_val, read.csv(X_c_A_z_val_file))
         }
       }
     }
     
+    # test
+    X_c_A_z_test_exist <- exists("X_c_A_z_test")
+    X_c_A_z_test_file <- if (MI == T) {
+      file.path(path, "X_c", "A_z", "test", glue("X_c_A_z_{p}_MI_test.csv"))
+    } else {
+      file.path(path, "X_c", "A_z", "test", glue("X_c_A_z_{p}_test.csv"))
+    }
+    X_c_A_z_test_flag <- F
+    if(grepl("n2v", path, fixed=T) == T && p > 40){
+      X_c_A_z_test_flag <- T 
+    }
+    if (file.exists(X_c_A_z_test_file)){
+      if (X_c_A_z_test_flag == F){
+        X_c_A_z_test <- if (X_c_A_z_test_exist == F){
+          read.csv(X_c_A_z_test_file)
+        } else {
+          rbind(X_c_A_z_test, read.csv(X_c_A_z_test_file))  
+        }
+      }
+    }
+    ###########################################################################
     # X_z, A_c
-    if (p == 0){
-      X_z_A_c_val <- read.csv(file.path(path, "X_z", "A_c", "val", 
-                                        glue("X_z_A_c_0_val.csv")), sep = "\t")
+    ###########################################################################
+    # val
+    X_z_A_c_val_exist <- exists("X_z_A_c_val")
+    X_z_A_c_val_file <- if (MI == T) {
+      file.path(path, "X_z", "A_c", "val", glue("X_z_A_c_{p}_MI_val.csv"))
     } else {
-      X_z_A_c_val <- rbind(X_z_A_c_val, read.csv(file.path(path, "X_z", "A_c", "val", 
-                                                  glue("X_z_A_c_{p}_val.csv")), sep = "\t"))
+      file.path(path, "X_c", "A_z", "val", glue("X_z_A_c_{p}_val.csv"))
     }
-    if (p == 0){
-      X_z_A_c_test <- read.csv(file.path(path, "X_z", "A_c", "test", 
-                                        glue("X_z_A_c_0_test.csv")), sep = "\t")
-    } else {
-      X_z_A_c_test <- rbind(X_z_A_c_test, read.csv(file.path(path, "X_z", "A_c", "test", 
-                                                glue("X_z_A_c_{p}_test.csv")), sep = "\t"))
+    if (file.exists(X_z_A_c_val_file)){
+      X_z_A_c_val <- if (X_z_A_c_val_exist == F){
+        read.csv(X_z_A_c_val_file)
+      } else {
+        rbind(X_z_A_c_val, read.csv(X_z_A_c_val_file))  
+      }
     }
     
-    # X_z, A_z
-    if (p == 0){
-      X_z_A_z_val <- read.csv(file.path(path, "X_z", "A_z", "val", 
-                                        glue("X_z_A_z_0_val.csv")), sep = "\t")
+    # test
+    X_z_A_c_test_exist <- exists("X_z_A_c_test")
+    X_z_A_c_test_file <- if (MI == T) {
+      file.path(path, "X_z", "A_c", "test", glue("X_z_A_c_{p}_MI_test.csv"))
     } else {
-      if (p <= 40){
-        X_z_A_z_val <- rbind(X_z_A_z_val, read.csv(file.path(path, "X_z", "A_z", "val", 
-                                                             glue("X_z_A_z_{p}_val.csv")), sep = "\t"))
+      file.path(path, "X_z", "A_c", "test", glue("X_z_A_c_{p}_test.csv"))
+    }
+    if (file.exists(X_z_A_c_test_file)){
+      X_z_A_c_test <- if (X_z_A_c_test_exist == F){
+        read.csv(X_z_A_c_test_file)
       } else {
-        if ((grepl("n2v", path, fixed=T)) == F){
-          X_z_A_z_val <- rbind(X_z_A_z_val, read.csv(file.path(path, "X_z", "A_z", "val", 
-                                                             glue("X_z_A_z_{p}_val.csv")), sep = "\t"))
+        rbind(X_z_A_c_test, read.csv(X_z_A_c_test_file))  
+      }
+    }
+    ###########################################################################
+    # X_z, A_z
+    ###########################################################################
+    # val
+    X_z_A_z_val_exist <- exists("X_z_A_z_val")
+    X_z_A_z_val_file <- if (MI == T) {
+      file.path(path, "X_z", "A_z", "val", glue("X_z_A_z_{p}_MI_val.csv"))
+    } else {
+      file.path(path, "X_z", "A_z", "val", glue("X_z_A_z_{p}_val.csv"))
+    }
+    X_z_A_z_val_flag <- F
+    if(grepl("n2v", path, fixed=T) == T && p > 40){
+      X_z_A_z_val_flag <- T 
+    }
+    if (file.exists(X_z_A_z_val_file)){
+      if (X_z_A_z_val_flag == F){
+        X_z_A_z_val <- if (X_z_A_z_val_exist == F){
+          read.csv(X_z_A_z_val_file)
+        } else {
+          rbind(X_z_A_z_val, read.csv(X_z_A_z_val_file))
         }
       }
     }
-    if (p == 0){
-      X_z_A_z_test <- read.csv(file.path(path, "X_z", "A_z", "test", 
-                                         glue("X_z_A_z_0_test.csv")), sep = "\t")
+    
+    # test
+    X_z_A_z_test_exist <- exists("X_z_A_z_test")
+    X_z_A_z_test_file <- if (MI == T) {
+      file.path(path, "X_z", "A_z", "test", glue("X_z_A_z_{p}_MI_test.csv"))
     } else {
-      if (p <= 40){
-        X_z_A_z_test <- rbind(X_z_A_z_test, read.csv(file.path(path, "X_z", "A_z", "test", 
-                                                               glue("X_z_A_z_{p}_test.csv")), sep = "\t"))
-      } else {
-        if ((grepl("n2v", path, fixed=T)) == F){
-          X_z_A_z_test <- rbind(X_z_A_z_test, read.csv(file.path(path, "X_z", "A_z", "test", 
-                                                               glue("X_z_A_z_{p}_test.csv")), sep = "\t"))
+      file.path(path, "X_z", "A_z", "test", glue("X_z_A_z_{p}_test.csv"))
+    }
+    X_z_A_z_test_flag <- F
+    if(grepl("n2v", path, fixed=T) == T && p > 40){
+      X_z_A_z_test_flag <- T 
+    }
+    if (file.exists(X_z_A_z_test_file)){
+      if (X_z_A_z_test_flag == F){
+        X_z_A_z_test <- if (X_z_A_z_test_exist == F){
+          read.csv(X_z_A_z_test_file)
+        } else {
+          rbind(X_z_A_z_test, read.csv(X_z_A_z_test_file))  
         }
       }
     }
   }
+  ###########################################################################
+  X_c_A_c_val <- if (X_c_A_c_val_exist == T) X_c_A_c_val else NULL
+  X_c_A_c_test <- if (X_c_A_c_test_exist == T) X_c_A_c_test else NULL
+  X_c_A_z_val <- if (X_c_A_z_val_exist == T) X_c_A_z_val else NULL
+  X_c_A_z_test <- if (X_c_A_z_test_exist == T) X_c_A_z_test else NULL
+  X_z_A_c_val <- if (X_z_A_c_val_exist == T) X_z_A_c_val else NULL
+  X_z_A_c_test <- if (X_z_A_c_test_exist == T) X_z_A_c_test else NULL
+  X_z_A_z_val <- if (X_z_A_z_val_exist == T) X_z_A_z_val else NULL
+  X_z_A_z_test <- if (X_z_A_z_test_exist == T) X_z_A_z_test else NULL
+  ###########################################################################
   return_list <- list("X_c_A_c_val" = X_c_A_c_val, 
                       "X_c_A_c_test" = X_c_A_c_test, 
                       "X_c_A_z_val" = X_c_A_z_val, 
@@ -141,37 +239,41 @@ get_DNN_files <- function(path){
 ###############################################################################
 # Datasets for WikiCS
 ###############################################################################
-# w_dataset <- "WikiCS"
-# w_dataset_path <- get_dataset_path(w_dataset)
-# 
-# w_MLP_path <- file.path(w_dataset_path, "MLP")
-# w_MLP_files <- get_MLP_files(w_MLP_path)
-# 
-# w_n2v_path <- file.path(w_dataset_path, "n2v")
-# w_n2v_files <- get_DNN_files(w_n2v_path)
-# 
-# w_GCN_path <- file.path(w_dataset_path, "GCN")
-# w_GCN_files <- get_DNN_files(w_GCN_path)
-# 
-# w_SAGE_path <- file.path(w_dataset_path, "SAGE")
-# w_SAGE_files <- get_DNN_files(w_SAGE_path)
+w_dataset <- "WikiCS"
+w_dataset_path <- get_dataset_path(w_dataset)
+
+w_MLP_path <- file.path(w_dataset_path, "MLP")
+w_MLP_files <- get_MLP_files(w_MLP_path)
+
+w_n2v_path <- file.path(w_dataset_path, "n2v")
+w_n2v_files <- get_DNN_files(w_n2v_path)
+
+w_GCN_path <- file.path(w_dataset_path, "GCN")
+w_GCN_files <- get_DNN_files(w_GCN_path)
+
+w_SAGE_path <- file.path(w_dataset_path, "SAGE")
+w_SAGE_files <- get_DNN_files(w_SAGE_path)
 ###############################################################################
 # Datasets for WikiCS_AWGN
 ###############################################################################
-# wa_dataset <- "WikiCS-AWGN"
-# wa_dataset_path <- get_dataset_path(wa_dataset)
-# 
-# wa_MLP_path <- file.path(wa_dataset_path, "MLP")
-# wa_MLP_files <- get_MLP_files(wa_MLP_path)
-# 
-# wa_n2v_path <- file.path(wa_dataset_path, "n2v")
-# wa_n2v_files <- get_DNN_files(wa_n2v_path)
-# 
-# wa_GCN_path <- file.path(wa_dataset_path, "GCN")
-# wa_GCN_files <- get_DNN_files(wa_GCN_path)
-# 
-# wa_SAGE_path <- file.path(wa_dataset_path, "SAGE")
-# wa_SAGE_files <- get_DNN_files(wa_SAGE_path)
+wa_dataset <- "WikiCS-AWGN"
+wa_dataset_path <- get_dataset_path(wa_dataset)
+
+wa_MLP_path <- file.path(wa_dataset_path, "MLP")
+wa_MLP_files <- get_MLP_files(wa_MLP_path)
+wa_MLP_MI_files <- get_MLP_files(wa_MLP_path, MI=T)
+
+wa_n2v_path <- file.path(wa_dataset_path, "n2v")
+wa_n2v_files <- get_DNN_files(wa_n2v_path)
+wa_n2v_MI_files <- get_DNN_files(wa_n2v_path, MI=T)
+
+wa_GCN_path <- file.path(wa_dataset_path, "GCN")
+wa_GCN_files <- get_DNN_files(wa_GCN_path)
+wa_GCN_MI_files <- get_DNN_files(wa_GCN_path, MI=T)
+
+wa_SAGE_path <- file.path(wa_dataset_path, "SAGE")
+wa_SAGE_files <- get_DNN_files(wa_SAGE_path)
+wa_SAGE_MI_files <- get_DNN_files(wa_SAGE_path, MI=T)
 ###############################################################################
 # Datasets for ogbn-arxiv
 ###############################################################################

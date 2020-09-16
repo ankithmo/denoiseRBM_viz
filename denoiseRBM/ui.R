@@ -54,35 +54,35 @@ sidebar <- dashboardSidebar(
       tabName = "dashboard",
       icon = icon("dashboard"),
       startExpanded = TRUE,
-      selectInput("dataset",
-                  "Dataset",
-                  choices = c("ogbn-arxiv", "WikiCS"),#, "WikiCS-AWGN"
+      selectInput(inputId = "dataset",
+                  label = "Dataset",
+                  choices = c("ogbn-arxiv", "WikiCS", "WikiCS-AWGN"),
                   selected = "ogbn-arxiv"),
-      selectInput("split",
-                  "Split",
+      selectInput(inputId = "split",
+                  label = "Split",
                   choices = c("Validation", "Test"),
                   selected = "Validation"),
-      selectInput("X",
-                  "Node feature matrix (X)",
+      selectInput(inputId = "X",
+                  label = "Node feature matrix (X)",
                   choices = c("Corrupted (X_c)", "Blanked out (X_z)"),
                   selected = "Corrupted (X_c)"),
-      selectInput("A",
-                  "Adjacency matrix (A)",
+      selectInput(inputId = "A",
+                  label = "Adjacency matrix (A)",
                   choices = list("Corrupted (A_c)", "Blanked out (A_z)"),
                   selected = "Corrupted (A_c)"),
-      sliderInput("n_A",
-                  "Distortion in adjacency matrix (n_A)",
+      sliderInput(inputId = "n_A",
+                  label = "Distortion in adjacency matrix (n_A)",
                   min = 0,
                   max = 100,
                   value = 0,
                   step = 10),
-      selectInput("playground",
-                  "Choose reconstructions",
-                  list("MLP" = list("MLP:z0", "MLP:~z0", "MLP:~z1", "MLP:~z2", "MLP:~z3"),
-                       "n2v" = list("n2v:z0", "n2v:~z0", "n2v:~z1", "n2v:~z2", "n2v:~z3"),
-                       "GCN" = list("GCN:z0", "GCN:~z0", "GCN:~z1", "GCN:~z2", "GCN:~z3"),
-                       "SAGE" = list("SAGE:z0", "SAGE:~z0", "SAGE:~z1", "SAGE:~z2", "SAGE:~z3")
-                       ),
+      selectInput(inputId = "playground",
+                  label = "Choose reconstructions",
+                  choices = list("MLP" = list("MLP:z0", "MLP:~z0", "MLP:~z1", "MLP:~z2", "MLP:~z3"),
+                                 "n2v" = list("n2v:z0", "n2v:~z0", "n2v:~z1", "n2v:~z2", "n2v:~z3"),
+                                 "GCN" = list("GCN:z0", "GCN:~z0", "GCN:~z1", "GCN:~z2", "GCN:~z3"),
+                                 "SAGE" = list("SAGE:z0", "SAGE:~z0", "SAGE:~z1", "SAGE:~z2", "SAGE:~z3")
+                                ),
                   selected = c("MLP:z0", "n2v:z0", "GCN:z0", "SAGE:z0"),
                   multiple = TRUE)
     ),
@@ -127,37 +127,26 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   fluidRow(
     tabsetPanel(
+      id = "method",
       tabPanel(
-        "MLP",
-        value="MLP",
+        title = "MLP",
         plotlyOutput("MLP_plot")
       ),
       tabPanel(
-        "n2v",
-        value="n2v",
+        title = "n2v",
         plotlyOutput("n2v_plot")
       ),
       tabPanel(
-        "GCN",
-        value="GCN",
+        title = "GCN",
         plotlyOutput("GCN_plot")
       ),
       tabPanel(
-        "SAGE",
-        value="SAGE",
+        title = "SAGE",
         plotlyOutput("SAGE_plot")
       )
     )
   ),
-  fluidRow(
-    tabsetPanel(
-      tabPanel(
-        "Playground",
-        value="Playground",
-        plotlyOutput("compare_plot")   
-      )
-    )
-  )
+  uiOutput("compare")
 )
 
 ui <- dashboardPage(
