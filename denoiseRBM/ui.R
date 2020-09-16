@@ -51,6 +51,7 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem(
       "Dashboard",
+      id = "dashboard",
       tabName = "dashboard",
       icon = icon("dashboard"),
       startExpanded = TRUE,
@@ -76,15 +77,18 @@ sidebar <- dashboardSidebar(
                   max = 100,
                   value = 0,
                   step = 10),
-      selectInput(inputId = "playground",
-                  label = "Choose reconstructions",
-                  choices = list("MLP" = list("MLP:z0", "MLP:~z0", "MLP:~z1", "MLP:~z2", "MLP:~z3"),
-                                 "n2v" = list("n2v:z0", "n2v:~z0", "n2v:~z1", "n2v:~z2", "n2v:~z3"),
-                                 "GCN" = list("GCN:z0", "GCN:~z0", "GCN:~z1", "GCN:~z2", "GCN:~z3"),
-                                 "SAGE" = list("SAGE:z0", "SAGE:~z0", "SAGE:~z1", "SAGE:~z2", "SAGE:~z3")
-                                ),
-                  selected = c("MLP:z0", "n2v:z0", "GCN:z0", "SAGE:z0"),
-                  multiple = TRUE)
+      conditionalPanel(
+        condition = "input.dataset.indexOf('AWGN') == -1",
+        selectInput(inputId = "playground",
+                    label = "Choose reconstructions",
+                    choices = list("MLP" = list("MLP:z0", "MLP:~z0", "MLP:~z1", "MLP:~z2", "MLP:~z3"),
+                                   "n2v" = list("n2v:z0", "n2v:~z0", "n2v:~z1", "n2v:~z2", "n2v:~z3"),
+                                   "GCN" = list("GCN:z0", "GCN:~z0", "GCN:~z1", "GCN:~z2", "GCN:~z3"),
+                                   "SAGE" = list("SAGE:z0", "SAGE:~z0", "SAGE:~z1", "SAGE:~z2", "SAGE:~z3")
+                    ),
+                    selected = c("MLP:z0", "n2v:z0", "GCN:z0", "SAGE:z0"),
+                    multiple = TRUE)
+      )
     ),
     menuItem(
       "Info",

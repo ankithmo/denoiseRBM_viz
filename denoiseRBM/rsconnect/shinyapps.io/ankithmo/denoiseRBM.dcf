@@ -5,9 +5,9 @@ account: ankithmo
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2803065
-bundleId: 3628226
+bundleId: 3634519
 url: https://ankithmo.shinyapps.io/denoiseRBM/
-when: 1600105353.15684
-lastSyncTime: 1600105353.15684
+when: 1600244516.82658
+lastSyncTime: 1600244516.82658
 asMultiple: FALSE
 asStatic: FALSE
