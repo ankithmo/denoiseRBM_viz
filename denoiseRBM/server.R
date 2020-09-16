@@ -238,6 +238,32 @@ server <- function(input, output, session){
   #############################################################################
   # Playground
   #############################################################################
+  output$compare <- renderUI({
+    if (grepl("AWGN", input$dataset, fixed=TRUE) == F){
+      tabsetPanel(
+        tabPanel(
+          title = "Playground",
+          plotlyOutput("compare_plot")   
+        )
+      )
+    } else {
+      tabsetPanel(
+        tabPanel(
+          title = glue("{input$method}:z0 vs {input$method}:~z0"),
+          plotlyOutput("z0_vs_rec_z0")
+        ),
+        tabPanel(
+          title = glue("{input$method}:z0 vs {input$method}:~z1"),
+          plotlyOutput("z0_vs_rec_z1")
+        ),
+        tabPanel(
+          title = glue("{input$method}:z0 vs {input$method}:~z2"),
+          plotlyOutput("z0_vs_rec_z2")
+        )
+      )
+    }
+  })
+  
   output$compare_plot <- renderPlotly({
     # Get lists
     if (input$dataset == "ogbn-arxiv") {
@@ -366,5 +392,17 @@ server <- function(input, output, session){
   #############################################################################
   # MI
   #############################################################################
+  output$z0_vs_rec_z0 <- renderPlotly({
+    fig <- plot_ly()
+    fig
+  })
+  output$z0_vs_rec_z1 <- renderPlotly({
+    fig <- plot_ly()
+    fig
+  })
+  output$z0_vs_rec_z2 <- renderPlotly({
+    fig <- plot_ly()
+    fig
+  })
   #############################################################################
 }
